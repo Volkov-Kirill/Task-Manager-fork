@@ -1,0 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TaskManager.Data
+{
+    public class DB_Installer
+    {
+        public static void Install()
+        {
+            DbContext.Database_Create_ALPHA();
+        }
+    }
+}
