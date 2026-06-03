@@ -22,7 +22,7 @@ namespace TaskManager.Data
             return connection;
         }
         public static void Database_Create_ALPHA()
-        {            
+        {
             if (_initialized) return;
 
             var shouldSeed = !File.Exists(DatabaseFileName);
@@ -100,7 +100,7 @@ INSERT OR IGNORE INTO Users (Login, Password, Name, Role) VALUES
 ('manager', '1234', 'Руководитель', 1),
 ('worker1', '1234', 'Работник', 2),
 ('worker2', '1234', 'Работник 2', 2);");
-     
+
         }
 
         private static void ExecuteSql(SQLiteConnection connection, string sql)
