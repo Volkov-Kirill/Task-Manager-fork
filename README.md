@@ -13,11 +13,23 @@
 
 ## 📂 Структура проекта
 
-* Models — модели данных
-* Views — интерфейс (XAML)
-* ViewModels — логика UI
-* Services — бизнес-логика
-* Data — работа с базой данных
+├── Commands/         # Логика обработки кликов и действий (Command.cs)
+    ├── Command.cs     # Команды для обработки событий в ViewModel
+├── Data/             # Класс подключения к БД (DbContext.cs)
+    ├── DbContext.cs   # Контекст базы данных
+├── Models/           # Сущности (TaskItem.cs, User.cs, UserRole.cs)
+    ├── TaskItem.cs  # Детали задачи
+    ├── User.cs      # Пользователи
+    └── UserRole.cs  # Роли пользователей
+├── Services/         # Бизнес-логика (AuthService.cs, TaskService.cs)
+    ├── AuthService.cs  # Аутентификация пользователей
+    └── TaskService.cs  # Логика работы с задачами
+├── ViewModels/       # Связующее звено между интерфейсом и данными (MainViewModel.cs)
+    ├── MainViewModel.cs  # Модель представления главного окна приложения
+└── Views/            # Визуальный интерфейс XAML (MainWindow.xaml)
+    ├── MainWindow.xaml  # Главное окно приложения
+
+
 
 ## ⚙️ Функционал
 
@@ -55,6 +67,11 @@
 Основные таблицы:
 * Users
 * TaskItems
+
+## Карта переменных (файла secrets.config)
+
+ Название ключа     За что отвечает                                                                                                Пример значения
+ DBName             Имя файла в котором будут сохраняться все задачи и пользователи. Этот файл создается на вашем компьютере       tasks_db.db 
 
 ## 🚀 Запуск проекта
 
