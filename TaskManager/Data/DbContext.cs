@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
+using System.Configuration;
 
 namespace TaskManager.Data
 {
     public class DbContext
     {
-        private const string DatabaseFileName = "taskmanager.db";
+        private static string DatabaseFileName => ConfigurationManager.AppSettings["DBName"] ?? "tasks.db";
         private static bool _initialized;
 
         public static SQLiteConnection CreateConnection()
@@ -21,7 +22,7 @@ namespace TaskManager.Data
             return connection;
         }
         public static void Database_Create_ALPHA()
-        {            
+        {
             if (_initialized) return;
 
             var shouldSeed = !File.Exists(DatabaseFileName);
@@ -99,7 +100,7 @@ INSERT OR IGNORE INTO Users (Login, Password, Name, Role) VALUES
 ('manager', '1234', 'Руководитель', 1),
 ('worker1', '1234', 'Работник', 2),
 ('worker2', '1234', 'Работник 2', 2);");
-     
+
         }
 
         private static void ExecuteSql(SQLiteConnection connection, string sql)

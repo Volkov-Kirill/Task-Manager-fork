@@ -9,7 +9,7 @@ using System.Data.SQLite;
 using System.Windows;
 namespace TaskManager.Services
 {
-    public class Auth
+    public class AuthService
     {
         public User Login(string login, string password)
         {
