@@ -107,7 +107,7 @@
     </Compile>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Data\DbContext.cs" />
-    <Compile Include="LoggerConfig.cs" />
+    <Compile Include="logger\LoggerConfig.cs" />
     <Compile Include="Models\TaskItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />

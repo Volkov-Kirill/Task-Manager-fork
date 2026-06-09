@@ -17,8 +17,6 @@ namespace TaskManager
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
 
-                .WriteTo.Debug(outputTemplate: outputTemplate)
-
                 .WriteTo.File(
                     path: Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app.log"),
                     outputTemplate: outputTemplate,
