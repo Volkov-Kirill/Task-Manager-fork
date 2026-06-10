@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
 using System.Configuration;
+using Serilog;
+using TaskManager.Models;
 
 namespace TaskManager.Data
 {
@@ -13,13 +15,25 @@ namespace TaskManager.Data
     {
         private static string DatabaseFileName => ConfigurationManager.AppSettings["DBName"] ?? "tasks.db";
         private static bool _initialized;
+        private static readonly ILogger _logger = Log.ForContext<DbContext>();
 
         public static SQLiteConnection CreateConnection()
         {
-            Database_Create_ALPHA();
-            var connection = new SQLiteConnection($"Data Source={DatabaseFileName};Version=3;");
-            connection.Open();
-            return connection;
+            try
+            {
+                Database_Create_ALPHA();
+                var connection = new SQLiteConnection($"Data Source={DatabaseFileName};Version=3;");
+                connection.Open();
+
+                _logger.Information("Успешное подключение к СУБД SQLite. Файл: {FileName}", DatabaseFileName);
+
+                return connection;
+            }
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex, "CRITICAL: Сбой при подключении к базе данных SQLite!");
+                throw;
+            }
         }
         public static void Database_Create_ALPHA()
         {
@@ -119,5 +133,30 @@ INSERT OR IGNORE INTO Users (Login, Password, Name, Role) VALUES
             }
         }
 
+        public static object GetFirstUser()
+        {
+            try
+            {
+                using (var connection = CreateConnection())
+                using (var command = new SQLiteCommand("SELECT Name FROM Users LIMIT 1;", connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string name = reader.GetString(0);
+
+                        _logger.Information("Пользователь '{Name}' успешно вошел в учетную запись.", name);
+
+                        return name;
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Ошибка при выполнении запроса SELECT к таблице Users.");
+            }
+            return "Гость";
+        }
     }
 }

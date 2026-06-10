@@ -23,7 +23,7 @@ namespace TaskManager.Services
                 {
                     if (!reader.Read()) return null;
 
-                    return new User
+                    var loggedInUser = new User
                     {
                         Id = reader.GetInt32(0),
                         Login = reader.GetString(1),
@@ -31,6 +31,16 @@ namespace TaskManager.Services
                         Name = reader.GetString(3),
                         Role = (UserRole)reader.GetInt32(4),
                     };
+                    if (!string.IsNullOrEmpty(App.CurrentUser) && App.CurrentUser != "Гость")
+                    {
+                        Serilog.Log.ForContext("SourceContext", "AuthModule")
+                                   .Information("Пользователь '{Name}' вышел из учетной записи (Сессия закрыта).", App.CurrentUser);
+                    }
+                    App.CurrentUser = loggedInUser.Name;
+                    Serilog.Log.ForContext("SourceContext", "AuthModule")
+           .Information("Пользователь '{Name}' успешно вошел в учетную запись.", loggedInUser.Name);
+                    return loggedInUser;
+
                 }
             }
         }
